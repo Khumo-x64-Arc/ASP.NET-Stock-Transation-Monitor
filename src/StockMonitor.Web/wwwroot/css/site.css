@@ -1,0 +1,92 @@
+:root {
+    --bg: #0b1020;
+    --surface: #121a2e;
+    --surface-2: #18223a;
+    --border: #243049;
+    --text: #e6ebf5;
+    --muted: #8a96b0;
+    --accent: #4f8cff;
+    --pos: #22c58b;
+    --neg: #ff5c7a;
+    --warn: #f5b84b;
+    --c1: #4f8cff; --c2: #22c58b; --c3: #f5b84b; --c4: #b07cff; --c5: #ff8a4c; --c6: #3cc6d9; --c7: #ff5c7a; --c8: #9aa7c2;
+}
+
+html, body { background: var(--bg); color: var(--text); font-family: Inter, system-ui, sans-serif; font-size: 14px; }
+.num, .mono, td.num, th.num { font-family: "JetBrains Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+td.num, th.num { text-align: right; }
+.pos { color: var(--pos) !important; }
+.neg { color: var(--neg) !important; }
+.text-secondary { color: var(--muted) !important; }
+
+/* nav */
+.app-nav { background: rgba(11, 16, 32, .92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
+.app-nav .nav-link { color: var(--muted); border-radius: 8px; padding: .4rem .8rem !important; }
+.app-nav .nav-link:hover { color: var(--text); background: var(--surface); }
+.app-nav .nav-link.active { color: var(--text); background: var(--surface-2); }
+.brand-mark { display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 8px; background: linear-gradient(135deg, var(--accent), #7b5cff); color: white; }
+
+.conn-pill { display: inline-flex; align-items: center; gap: .45rem; font-size: 12px; padding: .25rem .65rem; border-radius: 999px; border: 1px solid var(--border); color: var(--muted); }
+.conn-pill .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
+.conn-live .dot { background: var(--pos); box-shadow: 0 0 0 0 rgba(34,197,139,.6); animation: pulse 1.8s infinite; }
+.conn-live { color: var(--text); }
+.conn-down .dot { background: var(--neg); }
+@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(34,197,139,.55); } 70% { box-shadow: 0 0 0 8px rgba(34,197,139,0); } 100% { box-shadow: 0 0 0 0 rgba(34,197,139,0); } }
+
+/* ticker tape */
+.ticker-tape { overflow: hidden; white-space: nowrap; border-bottom: 1px solid var(--border); background: var(--surface); height: 34px; display: flex; align-items: center; }
+.ticker-track { display: inline-flex; gap: 1.75rem; padding-left: 100%; animation: tape 60s linear infinite; }
+.ticker-tape:hover .ticker-track { animation-play-state: paused; }
+.ticker-item { font-family: "JetBrains Mono", monospace; font-size: 12.5px; }
+.ticker-item .sym { color: var(--text); font-weight: 500; margin-right: .4rem; }
+@keyframes tape { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+
+/* cards */
+.card-s { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 1.1rem 1.2rem; height: 100%; }
+.card-s h6 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 600; margin-bottom: .9rem; display: flex; justify-content: space-between; align-items: center; gap: .5rem; }
+.kpi .label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+.kpi .value { font-family: "JetBrains Mono", monospace; font-size: 1.55rem; font-weight: 500; margin-top: .25rem; transition: color .4s; }
+.kpi .sub { font-size: 12.5px; margin-top: .15rem; }
+.flash-up { animation: flashUp 1.2s; }
+.flash-down { animation: flashDown 1.2s; }
+@keyframes flashUp { 0% { background: rgba(34,197,139,.28); } 100% { background: transparent; } }
+@keyframes flashDown { 0% { background: rgba(255,92,122,.28); } 100% { background: transparent; } }
+.row-new { animation: rowIn 2.4s ease-out; }
+@keyframes rowIn { 0% { background: rgba(79,140,255,.35); } 100% { background: transparent; } }
+
+/* tables */
+.table-s { --bs-table-bg: transparent; --bs-table-color: var(--text); --bs-table-border-color: var(--border); margin: 0; }
+.table-s thead th { font-size: 11.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; border-bottom-color: var(--border); white-space: nowrap; }
+.table-s td { vertical-align: middle; border-color: rgba(36,48,73,.6); }
+.table-s tbody tr:hover { background: var(--surface-2); }
+.table-s th.sortable { cursor: pointer; user-select: none; }
+.table-s th.sortable:hover { color: var(--text); }
+.scroll-y { max-height: 440px; overflow-y: auto; }
+.badge-act { font-size: 11px; font-weight: 600; padding: .3em .55em; border-radius: 6px; }
+.act-BUY { background: rgba(79,140,255,.15); color: #8db4ff; }
+.act-SELL { background: rgba(245,184,75,.15); color: var(--warn); }
+.act-DIVIDEND { background: rgba(34,197,139,.15); color: var(--pos); }
+.act-DEPOSIT { background: rgba(60,198,217,.15); color: #7fdbe8; }
+.act-WITHDRAWAL { background: rgba(255,92,122,.15); color: var(--neg); }
+.act-INTEREST { background: rgba(176,124,255,.15); color: #c9a8ff; }
+.acct { font-size: 11px; color: var(--muted); border: 1px solid var(--border); border-radius: 5px; padding: 0 .35rem; }
+
+/* alerts */
+.alert-item { border-left: 3px solid var(--muted); padding: .55rem .75rem; border-radius: 8px; background: var(--surface-2); margin-bottom: .5rem; }
+.alert-item.sev-WARN { border-left-color: var(--warn); }
+.alert-item.sev-CRITICAL { border-left-color: var(--neg); }
+.alert-item.sev-INFO { border-left-color: var(--accent); }
+.alert-item.ack { opacity: .5; }
+.alert-item .meta { font-size: 11px; color: var(--muted); }
+
+.form-select, .form-control { background-color: var(--surface-2); border-color: var(--border); color: var(--text); }
+.btn-ghost { border: 1px solid var(--border); color: var(--text); background: var(--surface-2); }
+.btn-ghost:hover, .btn-ghost.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.chart-box { position: relative; height: 290px; }
+.chart-box.sm { height: 230px; }
+.chart-box.lg { height: 340px; }
+.offcanvas { background: var(--surface); border-color: var(--border) !important; }
+.page-title { font-size: 1.35rem; font-weight: 600; margin: 0; }
+.page-sub { color: var(--muted); font-size: 13px; }
+.empty { color: var(--muted); text-align: center; padding: 2rem 0; font-size: 13px; }
+.offcanvas .card-s { height: auto; }

@@ -1,0 +1,56 @@
+# Render Blueprint: SQL Server (private service + disk) + ETL job + web app.
+# Deploy: push this repo to GitHub/GitLab -> Render Dashboard -> New -> Blueprint -> pick the repo.
+# Full walkthrough: docs/DEPLOY_RENDER.md
+#
+# Plan names: Render introduced new compute-plan IDs in Aug 2026 (standard = 1c-2g, starter = 0.5c-512mb).
+# If the Blueprint validator rejects a plan name below, swap in the new ID.
+
+envVarGroups:
+  - name: stockmonitor-db
+    envVars:
+      # Full ADO.NET connection string. Fill in after the SQL service exists (host = its Internal Address):
+      # Server=<stockmonitor-sql internal host>,1433;Database=StockMonitor;User Id=sa;Password=<MSSQL_SA_PASSWORD>;TrustServerCertificate=True;Encrypt=True
+      - key: STOCKMONITOR_ConnectionStrings__StockMonitor
+        sync: false
+
+services:
+  # ---------------------------------------------------------------- SQL Server (not public)
+  - type: pserv
+    name: stockmonitor-sql
+    runtime: docker
+    plan: standard                 # 2 GB RAM - SQL Server's minimum. Use 'pro' (4 GB) for headroom.
+    dockerfilePath: ./deploy/sqlserver/Dockerfile
+    dockerContext: ./deploy/sqlserver
+    disk:
+      name: mssql-data
+      mountPath: /var/opt/mssql    # data, log and backups survive deploys/restarts
+      sizeGB: 10
+    envVars:
+      - key: MSSQL_SA_PASSWORD     # 8+ chars with upper, lower, digit and symbol
+        sync: false
+
+  # ---------------------------------------------------------------- ETL (run on demand)
+  # Cron job used as a manually triggered job: click "Trigger Run" in the dashboard.
+  # The schedule (03:00 UTC on 1 Jan) only exists because cron jobs require one.
+  - type: cron
+    name: stockmonitor-etl
+    runtime: docker
+    plan: starter
+    schedule: "0 3 1 1 *"
+    dockerfilePath: ./src/StockMonitor.Etl/Dockerfile
+    dockerContext: .
+    envVars:
+      - fromGroup: stockmonitor-db
+
+  # ---------------------------------------------------------------- Web app (public)
+  - type: web
+    name: stockmonitor-web
+    runtime: docker
+    plan: starter                  # not 'free': free instances sleep when idle, which stops the live feed
+    dockerfilePath: ./src/StockMonitor.Web/Dockerfile
+    dockerContext: .
+    healthCheckPath: /healthz
+    envVars:
+      - fromGroup: stockmonitor-db
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production

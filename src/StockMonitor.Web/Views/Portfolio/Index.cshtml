@@ -1,0 +1,77 @@
+<div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+    <div>
+        <h1 class="page-title">Portfolio</h1>
+        <div class="page-sub">Positions rebuilt from every transaction plus splits, spin-offs and mergers. Prices update live.</div>
+    </div>
+    <div class="btn-group" role="group" id="acct-toggle">
+        <button class="btn btn-sm btn-ghost active" data-account="">All</button>
+    </div>
+</div>
+
+<div class="row g-3 mb-3">
+    <div class="col-6 col-lg-3"><div class="card-s kpi"><div class="label">Market value</div><div class="value" id="p-mv">–</div><div class="sub" id="p-day">–</div></div></div>
+    <div class="col-6 col-lg-3"><div class="card-s kpi"><div class="label">Cost basis</div><div class="value" id="p-cost">–</div><div class="sub text-secondary" id="p-count">–</div></div></div>
+    <div class="col-6 col-lg-3"><div class="card-s kpi"><div class="label">Unrealised P/L</div><div class="value" id="p-unr">–</div><div class="sub" id="p-unr-pct">–</div></div></div>
+    <div class="col-6 col-lg-3"><div class="card-s kpi"><div class="label">Income received</div><div class="value" id="p-div">–</div><div class="sub text-secondary">dividends on open lines</div></div></div>
+</div>
+
+<div class="row g-3 mb-3">
+    <div class="col-xxl-8">
+        <div class="card-s">
+            <h6>Holdings <span class="text-secondary text-lowercase fw-normal">click a row for history</span></h6>
+            <div class="table-responsive">
+                <table class="table table-s table-sm" id="holdings">
+                    <thead><tr>
+                        <th class="sortable" data-k="ticker">Security</th>
+                        <th>Acct</th>
+                        <th class="num sortable" data-k="quantity">Qty</th>
+                        <th class="num sortable" data-k="avgCostGbp">Avg cost</th>
+                        <th class="num sortable" data-k="priceGbp">Price</th>
+                        <th class="num sortable" data-k="dayChangePct">Day</th>
+                        <th class="num sortable" data-k="marketValueGbp">Value</th>
+                        <th class="num sortable" data-k="unrealizedGainGbp">Unrealised</th>
+                        <th class="num sortable" data-k="unrealizedPct">%</th>
+                        <th class="num sortable" data-k="weightPct">Weight</th>
+                        <th class="num sortable" data-k="dividendsGbp">Dividends</th>
+                    </tr></thead>
+                    <tbody><tr><td colspan="11" class="empty">Loading…</td></tr></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-4">
+        <div class="card-s mb-3" style="height:auto"><h6>Allocation</h6><div class="chart-box"><canvas id="allocChart"></canvas></div></div>
+        <div class="card-s" style="height:auto"><h6>Unrealised P/L by holding</h6><div class="chart-box" id="plBox"><canvas id="plChart"></canvas></div></div>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-xl-7">
+        <div class="card-s">
+            <h6>Closed positions</h6>
+            <div class="scroll-y"><table class="table table-s table-sm"><thead><tr><th>Security</th><th>Acct</th><th>Opened</th><th>Closed</th><th class="num">Realised</th><th class="num">Dividends</th><th class="num">Total return</th></tr></thead><tbody id="closed"></tbody></table></div>
+        </div>
+    </div>
+    <div class="col-xl-5">
+        <div class="card-s">
+            <h6>Corporate actions applied</h6>
+            <table class="table table-s table-sm"><thead><tr><th>Date</th><th>Type</th><th>Security</th><th>Terms</th></tr></thead><tbody id="cas"></tbody></table>
+        </div>
+    </div>
+</div>
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="detail" style="width:min(720px,100vw)">
+    <div class="offcanvas-header border-bottom" style="border-color:var(--border)!important">
+        <div><h5 class="offcanvas-title mb-0" id="d-title"></h5><div class="small text-secondary" id="d-sub"></div></div>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="card-s mb-3"><h6>Live price (last 2h)</h6><div class="chart-box sm"><canvas id="tickChart"></canvas></div></div>
+        <div id="d-cas"></div>
+        <div class="card-s"><h6>Transactions</h6>
+            <div class="scroll-y" style="max-height:none"><table class="table table-s table-sm"><thead><tr><th>Date</th><th>Acct</th><th>Action</th><th class="num">Shares</th><th class="num">Price</th><th class="num">Total £</th><th class="num">Broker result</th></tr></thead><tbody id="d-tx"></tbody></table></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts { <script src="~/js/portfolio.js" asp-append-version="true"></script> }

@@ -1,0 +1,57 @@
+<div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+    <div>
+        <h1 class="page-title">Live dashboard</h1>
+        <div class="page-sub">Transactions stream in through the ingestion pipeline; prices tick every few seconds. <span id="last-tx" class="ms-1"></span></div>
+    </div>
+    <div class="d-flex align-items-center gap-2">
+        <span class="small text-secondary" id="replay-status">Replay: –</span>
+        <button class="btn btn-sm btn-ghost" id="replay-toggle"><i class="bi bi-pause-fill"></i> Pause feed</button>
+    </div>
+</div>
+
+<!-- KPIs -->
+<div class="row g-3 mb-3" id="kpis">
+    <div class="col-6 col-lg-4 col-xxl-2"><div class="card-s kpi"><div class="label">Total value</div><div class="value" id="k-total">–</div><div class="sub text-secondary">holdings + cash</div></div></div>
+    <div class="col-6 col-lg-4 col-xxl-2"><div class="card-s kpi"><div class="label">Market value</div><div class="value" id="k-mv">–</div><div class="sub" id="k-day">–</div></div></div>
+    <div class="col-6 col-lg-4 col-xxl-2"><div class="card-s kpi"><div class="label">Unrealised P/L</div><div class="value" id="k-unr">–</div><div class="sub" id="k-unr-pct">–</div></div></div>
+    <div class="col-6 col-lg-4 col-xxl-2"><div class="card-s kpi"><div class="label">Realised (tax year)</div><div class="value" id="k-real-ty">–</div><div class="sub text-secondary" id="k-real">–</div></div></div>
+    <div class="col-6 col-lg-4 col-xxl-2"><div class="card-s kpi"><div class="label">Dividends 12m</div><div class="value" id="k-div">–</div><div class="sub text-secondary" id="k-div-all">–</div></div></div>
+    <div class="col-6 col-lg-4 col-xxl-2"><div class="card-s kpi"><div class="label">Cash</div><div class="value" id="k-cash">–</div><div class="sub text-secondary" id="k-pos">–</div></div></div>
+</div>
+
+<div class="row g-3 mb-3">
+    <div class="col-xl-8">
+        <div class="card-s">
+            <h6>Portfolio value (live) <span class="text-secondary text-lowercase fw-normal" id="snap-range">last 2 hours</span></h6>
+            <div class="chart-box"><canvas id="valueChart"></canvas></div>
+        </div>
+    </div>
+    <div class="col-xl-4">
+        <div class="card-s">
+            <h6>Alerts <span class="badge text-bg-secondary" id="alert-count">0</span></h6>
+            <div id="alerts" class="scroll-y" style="max-height:290px"><div class="empty">No alerts yet</div></div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-xl-8">
+        <div class="card-s">
+            <h6>Transaction feed <span class="text-secondary text-lowercase fw-normal">newest first · received time</span></h6>
+            <div class="scroll-y">
+                <table class="table table-s table-sm">
+                    <thead><tr><th>Received</th><th>Trade date</th><th>Acct</th><th>Action</th><th>Security</th><th class="num">Shares</th><th class="num">Price £</th><th class="num">Total</th><th class="num">Cash Δ</th></tr></thead>
+                    <tbody id="feed"><tr><td colspan="9" class="empty">Loading…</td></tr></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4">
+        <div class="card-s">
+            <h6>Movers vs previous close</h6>
+            <table class="table table-s table-sm"><thead><tr><th>Ticker</th><th class="num">Price £</th><th class="num">Change</th></tr></thead><tbody id="movers"></tbody></table>
+        </div>
+    </div>
+</div>
+
+@section Scripts { <script src="~/js/dashboard.js" asp-append-version="true"></script> }
