@@ -1,7 +1,5 @@
 # ASP.NET-Stock-Transation-Monitor
-A full stack C#/ASP.NET project that monitors stock transactions in real time. 
 
-# StockMonitor
 
 A full-stack C# / ASP.NET Core 8 application that monitors stock transactions in real time on SQL Server.
 It loads the *Open Stock Transaction Data 2020–2024* workbook (two Trading 212 accounts, a Stocks & Shares ISA
